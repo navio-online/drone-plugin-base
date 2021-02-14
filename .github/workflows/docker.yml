@@ -1,0 +1,63 @@
+---
+name: docker
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*.*.*'
+  pull_request: {}
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        if: github.event_name != 'pull_request'
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to AWS ECR
+        uses: elgohr/ecr-login-action@1.0.0
+        id: ecr
+        if: github.event_name != 'pull_request'
+        with:
+          access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ${{ secrets.AWS_REGION }}
+
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: drone-plugins-base
+          tag-sha: true
+
+      - name: Build
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: docker
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          build-args: |
+            arg1=value1
+            arg2=value2
+# public.ecr.aws/navio-online/drone-plugins/packer
+      -
+        name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
