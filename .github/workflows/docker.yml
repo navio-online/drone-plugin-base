@@ -39,12 +39,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # - name: Docker meta
-      #   id: docker_meta
-      #   uses: crazy-max/ghaction-docker-meta@v1
-      #   with:
-      #     images: drone-plugins-base
-      #     tag-sha: true
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images:
+            - salnikov/drone-plugin-packer
+            - public.ecr.aws/i5y3a0f4/drone-plugin-packer
+          tag-sha: true
 
       - name: Build
         id: docker_build
@@ -53,11 +55,11 @@ jobs:
           context: docker
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          # tags: ${{ steps.docker_meta.outputs.tags }}
-          # labels: ${{ steps.docker_meta.outputs.labels }}
-          tags:
-            salnikov/drone-plugin-packer:latest
-            public.ecr.aws/i5y3a0f4/drone-plugin-packer:latest
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          # tags:
+          #   salnikov/drone-plugin-packer:latest
+          #   public.ecr.aws/i5y3a0f4/drone-plugin-packer:latest
           build-args: |
             arg1=value1
             arg2=value2
