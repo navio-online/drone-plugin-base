@@ -43,9 +43,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images:
-            - salnikov/drone-plugin-packer
-            - public.ecr.aws/i5y3a0f4/drone-plugin-packer
+          images: salnikov/drone-plugin-packer,public.ecr.aws/i5y3a0f4/drone-plugin-packer
           tag-sha: true
 
       - name: Build
