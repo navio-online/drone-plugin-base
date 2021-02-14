@@ -45,6 +45,9 @@ jobs:
         with:
           images: salnikov/drone-plugin-packer,public.ecr.aws/i5y3a0f4/drone-plugin-packer
           tag-sha: true
+          tag-semver: |
+            {{version}}
+            {{major}}.{{minor}}
 
       - name: Build
         id: docker_build
