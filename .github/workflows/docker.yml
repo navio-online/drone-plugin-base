@@ -44,7 +44,6 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: salnikov/drone-plugin-base,public.ecr.aws/i5y3a0f4/drone-plugin-base
-          tag-sha: true
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
