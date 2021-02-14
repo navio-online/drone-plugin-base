@@ -56,8 +56,7 @@ jobs:
           # labels: ${{ steps.docker_meta.outputs.labels }}
           tags:
             salnikov/drone-plugin-packer:latest
-            public.ecr.aws/i5y3a0f4/drone/plugins/packer:latest
-
+            # public.ecr.aws/i5y3a0f4/drone/plugins/packer:latest
           build-args: |
             arg1=value1
             arg2=value2
