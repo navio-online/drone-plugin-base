@@ -15,7 +15,7 @@ jobs:
     steps:
 
       - name: test
-        uses: hannut91/aws-cli@v1.18.178
+        uses: ItsKarma/aws-cli@v1.70.0
         with:
           args: sts get-caller-identity
         env:
