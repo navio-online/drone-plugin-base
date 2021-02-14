@@ -43,7 +43,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: salnikov/drone-plugin-packer,public.ecr.aws/i5y3a0f4/drone-plugin-packer
+          images: salnikov/drone-plugin-base,public.ecr.aws/i5y3a0f4/drone-plugin-base
           tag-sha: true
           tag-semver: |
             {{version}}
@@ -59,8 +59,8 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           # tags:
-          #   salnikov/drone-plugin-packer:latest
-          #   public.ecr.aws/i5y3a0f4/drone-plugin-packer:latest
+          #   salnikov/drone-plugin-base:latest
+          #   public.ecr.aws/i5y3a0f4/drone-plugin-base:latest
           build-args: |
             arg1=value1
             arg2=value2
